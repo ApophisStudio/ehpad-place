@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supprimer mon compte – Ehpad place</title>
+<style>
+  :root { --bg:#ffffff; --fg:#212121; --muted:#616161; --accent:#1565c0; --card:#f5f7fa; --danger:#c62828; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#14181d; --fg:#e8eaed; --muted:#a0a7b0; --accent:#7fb2ff; --card:#1e242b; --danger:#ff8a80; }
+  }
+  body { background:var(--bg); color:var(--fg); font:16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; margin:0; }
+  main { max-width:640px; margin:0 auto; padding:24px 20px 64px; }
+  h1 { font-size:1.6rem; margin:0 0 8px; }
+  h2 { font-size:1.1rem; margin:24px 0 6px; color:var(--accent); }
+  .card { background:var(--card); border-radius:10px; padding:14px 16px; margin:16px 0; }
+  .muted { color:var(--muted); font-size:.92rem; }
+  button { font:inherit; font-weight:600; border:0; border-radius:8px; padding:12px 18px; cursor:pointer; margin:6px 0; }
+  #btnLogin { background:var(--accent); color:#fff; }
+  #btnDelete { background:var(--danger); color:#fff; }
+  button:disabled { opacity:.45; cursor:not-allowed; }
+  #msg { margin:16px 0; padding:12px 14px; border-radius:8px; display:none; }
+  #msg.ok { display:block; background:#e8f5e9; color:#1b5e20; }
+  #msg.err { display:block; background:#ffebee; color:#b71c1c; }
+  #msg.warn { display:block; background:#fff8e1; color:#6d4c00; }
+  #step2 { display:none; }
+  a { color:var(--accent); }
+  label { display:block; margin:12px 0; }
+</style>
+</head>
+<body>
+<main>
+<h1>Supprimer mon compte</h1>
+<p class="muted">Application « Ehpad place » – Apophis Studio</p>
+
+<div id="msg" role="status"></div>
+
+<h2>Ce qui sera supprimé</h2>
+<ul>
+  <li>votre profil (établissements rattachés) ;</li>
+  <li>votre compte de connexion (identifiant, adresse e-mail et nom du compte Google enregistrés par Firebase Authentication).</li>
+</ul>
+<h2>Ce qui est conservé</h2>
+<p>Les lignes d'historique des mises à jour, ainsi que les initiales de la dernière mise à jour d'un établissement, sont conservées à des fins de sécurité. Elles ne contiennent que vos initiales et un identifiant qui ne vous est plus rattaché après la suppression. Voir la <a href="privacy.html">politique de confidentialité</a>.</p>
+
+<div class="card">
+  <p><strong>Étape 1.</strong> Connectez-vous avec le compte Google utilisé dans l'application.</p>
+  <button id="btnLogin" type="button">Se connecter avec Google</button>
+</div>
+
+<div class="card" id="step2">
+  <p><strong>Étape 2.</strong> Connecté en tant que <strong id="who"></strong>.</p>
+  <label><input type="checkbox" id="confirm"> Je comprends que cette suppression est définitive.</label>
+  <button id="btnDelete" type="button" disabled>Supprimer définitivement mon compte</button>
+</div>
+
+<p class="muted">Vous ne pouvez pas utiliser cette page ? Écrivez à
+<a href="mailto:contact@apophisstudio.com">contact@apophisstudio.com</a> depuis l'adresse e-mail du compte Google concerné.</p>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, deleteUser, signOut }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, deleteDoc }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// À REMPLIR : Firebase > Paramètres du projet > Vos applications > Application Web > Configuration.
+// Ces valeurs ne sont pas secrètes (elles sont publiques dans toute appli).
+const firebaseConfig = {
+  apiKey: "COLLE_ICI_apiKey",
+  authDomain: "COLLE_ICI_authDomain",
+  projectId: "COLLE_ICI_projectId",
+  appId: "COLLE_ICI_appId"
+};
+
+const $ = (id) => document.getElementById(id);
+const msg = $("msg");
+function show(kind, text) { msg.className = kind; msg.textContent = text; }
+
+if (firebaseConfig.apiKey.startsWith("COLLE_ICI")) {
+  show("warn", "Page non configurée : la configuration Firebase n'a pas encore été renseignée.");
+  $("btnLogin").disabled = true;
+}
+
+let auth, db;
+try {
+  const app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+} catch (e) {
+  show("err", "Erreur d'initialisation : " + e.message);
+}
+
+$("btnLogin").addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, new GoogleAuthProvider());
+    $("who").textContent = result.user.email || "votre compte";
+    $("step2").style.display = "block";
+    msg.className = ""; msg.textContent = "";
+  } catch (e) {
+    show("err", "Connexion impossible : " + (e.code || e.message));
+  }
+});
+
+$("confirm").addEventListener("change", (e) => { $("btnDelete").disabled = !e.target.checked; });
+
+$("btnDelete").addEventListener("click", async () => {
+  const user = auth.currentUser;
+  if (!user) { show("err", "Vous n'êtes plus connecté. Reconnectez-vous."); return; }
+  $("btnDelete").disabled = true;
+  try {
+    await deleteDoc(doc(db, "users", user.uid));   // profil
+    await deleteUser(user);                         // compte de connexion
+    await signOut(auth).catch(() => {});
+    $("step2").style.display = "none";
+    show("ok", "Votre compte a été supprimé. Vous pouvez fermer cette page.");
+  } catch (e) {
+    $("btnDelete").disabled = false;
+    if (e.code === "auth/requires-recent-login") {
+      show("err", "Pour votre sécurité, reconnectez-vous puis recommencez.");
+    } else {
+      show("err", "La suppression a échoué : " + (e.code || e.message) + ". Écrivez-nous à contact@apophisstudio.com.");
+    }
+  }
+});
+</script>
+</body>
+</html>

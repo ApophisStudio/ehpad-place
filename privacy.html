@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Politique de confidentialité – Ehpad place</title>
+<style>
+  :root { --bg:#ffffff; --fg:#212121; --muted:#616161; --accent:#1565c0; --card:#f5f7fa; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#14181d; --fg:#e8eaed; --muted:#a0a7b0; --accent:#7fb2ff; --card:#1e242b; }
+  }
+  body { background:var(--bg); color:var(--fg); font:16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; margin:0; }
+  main { max-width:760px; margin:0 auto; padding:24px 20px 64px; }
+  h1 { font-size:1.7rem; margin:0 0 4px; }
+  h2 { font-size:1.2rem; margin:32px 0 8px; color:var(--accent); }
+  p, li { margin:6px 0; }
+  .muted { color:var(--muted); font-size:.92rem; }
+  .card { background:var(--card); border-radius:10px; padding:12px 16px; margin:16px 0; }
+  a { color:var(--accent); }
+  table { border-collapse:collapse; width:100%; margin:12px 0; font-size:.95rem; }
+  th, td { text-align:left; padding:8px; border-bottom:1px solid rgba(128,128,128,.3); vertical-align:top; }
+</style>
+</head>
+<body>
+<main>
+<h1>Politique de confidentialité</h1>
+<p class="muted">Application « Ehpad place » (Android) – dernière mise à jour : 7 octobre 2026</p>
+
+<h2>1. Qui sommes-nous ?</h2>
+<p>« Ehpad place » est éditée par Apophis Studio. Pour toute question sur vos données, écrivez à
+<a href="mailto:contact@apophisstudio.com">contact@apophisstudio.com</a>.</p>
+<p>L'application permet de consulter sur une carte les places libres déclarées par les établissements (Ehpad) et, pour les professionnels connectés, de déclarer les places libres de leur établissement.</p>
+
+<div class="card">
+  <strong>Nature des informations affichées.</strong> Les places libres sont déclarées par les utilisateurs rattachés aux établissements. Elles ne sont pas vérifiées par l'éditeur et peuvent être inexactes ou périmées. Elles ne remplacent pas un contact direct avec l'établissement.
+</div>
+
+<h2>2. Quelles données traitons-nous ?</h2>
+<table>
+  <tr><th>Situation</th><th>Données</th></tr>
+  <tr>
+    <td>Consulter la carte (sans compte)</td>
+    <td>Nous ne collectons aucune donnée personnelle vous concernant. Les fonds de carte sont chargés depuis OpenFreeMap, qui reçoit votre adresse IP comme tout serveur web. Des publicités peuvent être affichées par Google AdMob (voir section 4).</td>
+  </tr>
+  <tr>
+    <td>Se connecter (compte professionnel)</td>
+    <td>Connexion par votre compte Google via Firebase Authentication : identifiant unique de compte, adresse e-mail et nom du compte Google, conservés par ce service pour gérer la connexion. Nous n'utilisons pas votre adresse e-mail pour vous contacter et nous ne l'affichons à personne. <strong>Votre nom complet n'est ni enregistré dans notre base de données ni affiché</strong> : seules vos initiales (1 à 5 lettres) sont associées à vos mises à jour.</td>
+  </tr>
+  <tr>
+    <td>Utiliser le service</td>
+    <td>Dans notre base (Cloud Firestore) : les établissements que vous avez rejoints (2 au maximum), la date de votre dernière mise à jour, et pour chaque mise à jour de places : le nombre de places, la date, l'identifiant de votre compte et vos initiales. Si vous signalez une erreur : l'établissement concerné, l'identifiant de votre compte et la date.</td>
+  </tr>
+</table>
+<p>L'application ne collecte pas votre position, vos contacts ni aucune donnée de santé concernant les résidents des établissements.</p>
+
+<h2>3. Pourquoi, et sur quelle base légale ?</h2>
+<ul>
+  <li><strong>Fournir le service</strong> (compte, rattachement à un établissement, mise à jour des places) : exécution du service que vous demandez.</li>
+  <li><strong>Sécurité et lutte contre les fausses informations</strong> (historique des mises à jour, limites de fréquence, signalements) : intérêt légitime de l'éditeur et des familles qui consultent la carte.</li>
+  <li><strong>Publicités personnalisées</strong> : votre consentement, recueilli par un formulaire à la première ouverture dans l'Espace économique européen.</li>
+</ul>
+
+<h2>4. Publicité (Google AdMob)</h2>
+<p>L'application affiche une bannière publicitaire fournie par Google AdMob, qui peut utiliser l'identifiant publicitaire de votre appareil et votre adresse IP. Dans l'Espace économique européen, un formulaire de consentement s'affiche avant les publicités. Vous pouvez modifier votre choix à tout moment dans l'écran « À propos » de l'application.</p>
+
+<h2>5. Qui reçoit vos données ?</h2>
+<p>Vos données sont traitées par nos prestataires techniques : Google (Firebase Authentication, Cloud Firestore, AdMob) et OpenFreeMap (fonds de carte). Les données de notre base sont hébergées dans l'Union européenne ; Google peut toutefois effectuer certains traitements hors de l'Union, selon les garanties prévues par ses conditions. Les initiales et la date de dernière mise à jour d'un établissement sont visibles par tous les utilisateurs de l'application. Nous ne vendons pas vos données.</p>
+
+<h2>6. Combien de temps ?</h2>
+<ul>
+  <li>Votre profil et votre compte de connexion sont conservés tant que vous ne les supprimez pas.</li>
+  <li>L'historique des mises à jour et les signalements sont conservés à des fins de sécurité sous forme pseudonymisée (identifiant de compte et initiales). Après la suppression de votre compte, votre profil et votre compte de connexion sont effacés : l'identifiant qui subsiste dans l'historique ne permet plus de vous identifier.</li>
+</ul>
+
+<h2>7. Vos droits</h2>
+<p>Vous disposez des droits d'accès, de rectification, d'effacement, d'opposition, de limitation et de portabilité. Vous pouvez :</p>
+<ul>
+  <li><strong>supprimer votre compte vous-même</strong> dans l'application (« À propos » puis « Supprimer mon compte »), ou depuis la page <a href="delete-account.html">Supprimer mon compte</a> ;</li>
+  <li>nous écrire à <a href="mailto:contact@apophisstudio.com">contact@apophisstudio.com</a> pour toute autre demande.</li>
+</ul>
+<p>Vous pouvez aussi introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr">cnil.fr</a>).</p>
+
+<h2>8. Mineurs</h2>
+<p>L'application s'adresse aux adultes (familles et professionnels). Elle n'est pas destinée aux enfants.</p>
+
+<h2>9. Modifications</h2>
+<p>Nous pouvons modifier cette politique ; la date de mise à jour figure en haut de cette page. Les changements importants seront signalés dans l'application.</p>
+
+<h2>Sources des données affichées</h2>
+<p class="muted">Annuaire des établissements : FINESS, Ministère des Solidarités et de la Santé, Licence Ouverte. Fonds de carte : © les contributeurs d'OpenStreetMap, diffusés par OpenFreeMap.</p>
+</main>
+</body>
+</html>
